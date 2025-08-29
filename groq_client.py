@@ -143,10 +143,11 @@ async def main_query(user_input: str, user_lang):
         return multilingual_texts.sorry.get(user_lang)
 
     expense = await expense_extractor(user_input, user_lang)
-    if expense.get('price') == 0:
-        return multilingual_texts.sorry.get(user_lang)
 
     if not isinstance(expense, dict):
+        return multilingual_texts.sorry.get(user_lang)
+
+    if expense.get('price') == 0:
         return multilingual_texts.sorry.get(user_lang)
 
     if (expense.get('description') == 0
