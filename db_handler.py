@@ -131,7 +131,7 @@ async def show_expenses(chat_id, start_date, end_date):
 
         # no expenses over the chosen period of time
         if len(expenses) == 0:
-            return multilingual_texts.sorry_no_entries.get(user_lang)
+            return multilingual_texts.sorry_no_entries_period.get(user_lang)
 
         date_expenses = expenses.index
         description_expenses = expenses.values
@@ -170,12 +170,9 @@ async def show_expenses(chat_id, start_date, end_date):
         total = total.format(expenses_string=expenses_string, expenses_USD=expenses_USD)
         response += total
 
-        if len(response) != 0:
-            return response
-        else:
-            return multilingual_texts.sorry.get(user_lang)
+        return response
     else:
-        return multilingual_texts.sorry.get(user_lang)
+        return multilingual_texts.sorry_no_entries.get(user_lang)
 
 
 async def categories(chat_id, start_date, end_date):
@@ -203,7 +200,7 @@ async def categories(chat_id, start_date, end_date):
         return expenses_str
 
     else:
-        return multilingual_texts.sorry
+        return multilingual_texts.sorry_no_entries
 
 
 async def reset_account(chat_id):
