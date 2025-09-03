@@ -280,9 +280,13 @@ async def delete_expense_callback(callback_query):
 @dp.message(Command('csv'))
 async def get_csv(message: Message) -> None:
     user_chat_id = message.chat.id
-    csv_path = Path(f'db_storage/{user_chat_id}.csv')
+    user_lang = await db_handler.get_user_language(user_chat_id)
 
-    await message.answer_document(FSInputFile(csv_path))
+    csv_path = Path(f'db_storage/{user_chat_id}.csv')
+    if csv_path.exists():
+        await message.answer_document(FSInputFile(csv_path))
+    else:
+        await message.answer(multilingual_texts.sorry_no_entries.get(user_lang))
 
 
 @dp.message(Command('reset'))
