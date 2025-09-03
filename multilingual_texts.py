@@ -414,7 +414,7 @@ start_intro = {
           "💬 Have questions? Reach out anytime at "
           "@QuickAccountantBotSupport.\n\n"
           "<i>P.S. For the best bot performance, please specify exactly what you spent money on.</i>\nFor example: "
-          "'20 bucks <b>for a T-shirt</b>'"
+          "'20 bucks <b>for a T-shirt</b>'\n"
           "<i>P.P.S. If you use voice messages, do not start talking right away, as Telegram does not immediately "
           "start recording your voice.</i>"
     ,
@@ -433,7 +433,7 @@ start_intro = {
           "💬 Есть вопросы? "
           "Свяжитесь с нами в @QuickAccountantBotSupport.\n\n"
           "<i>P.S. Для лучшей работы бота, уточняйте, пожалуйста, на что именно потратили деньги.</i>\nНапример: "
-          "'Тысяча рублей <b>на ресторан</b>'"
+          "'Тысяча рублей <b>на ресторан</b>\n'"
           "<i>P.P.S. Если вы пользуетесь голосовыми сообщениями, не начинайте говорить сразу, так как Telegram"
           "начинает записывать ваш голос через полсекунды/секунду.</i>"
 }
