@@ -52,7 +52,7 @@ async def expense_extractor(user_input: str, language):
 
     # httpx for asynchronous requests
     max_retries = 10
-    timeout = httpx.Timeout(connect=10.0, read=30.0, write=10.0, pool=5.0)
+    timeout = httpx.Timeout(connect=30.0, read=30.0, write=10.0, pool=5.0)
     async with httpx.AsyncClient(timeout=timeout) as client:
         for retry in range(max_retries):
             response = await client.post(GROQ_API_URL, json=body, headers=headers)
@@ -105,7 +105,7 @@ async def purchase_category(user_input: str, language):
     # httpx for asynchronous requests
     max_retries = 10
     retries_amount = 0
-    timeout = httpx.Timeout(connect=10.0, read=30.0, write=10.0, pool=5.0)
+    timeout = httpx.Timeout(connect=30.0, read=30.0, write=10.0, pool=5.0)
     async with httpx.AsyncClient(timeout=timeout) as client:
         for retry in range(max_retries):
             response = await client.post(GROQ_API_URL, json=body, headers=headers)
@@ -173,3 +173,53 @@ async def main_query(user_input: str, user_lang):
         expense['category'] = 0
 
     return expense
+
+
+async def ASR_upscale(query: str, user_lang):
+    prompt = multilingual_texts.ASR_upscale_prompt.get(user_lang).format(query=query)
+
+    headers = {
+        "Authorization": f"Bearer {GROQ_API_KEY}",
+        "Content-Type": "application/json",
+    }
+
+    body = {
+        "model": GROQ_MODEL,
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0.2
+    }
+
+    # httpx for asynchronous requests
+    max_retries = 10
+    retries_amount = 0
+    timeout = httpx.Timeout(connect=30.0, read=30.0, write=10.0, pool=5.0)
+    async with httpx.AsyncClient(timeout=timeout) as client:
+        for retry in range(max_retries):
+            response = await client.post(GROQ_API_URL, json=body, headers=headers)
+            if response is not None and response != "":
+                resp_json = response.json()
+
+                # if the TPM (token per minute) exceeds the plan, it'll switch to another model
+                if resp_json.get('error'):
+                    body = {
+                        "model": GROQ_MODEL_BACKUP,
+                        "messages": [{"role": "user", "content": prompt}],
+                        "temperature": 0.2
+                    }
+                    logging.info(f'groq_client.ASR_upscale:Switched to backup model {GROQ_MODEL_BACKUP}')
+                    continue
+
+                choices = resp_json.get('choices')
+                if choices and len(choices) > 0:
+                    message = choices[0].get('message')
+                    if message:
+                        content = message.get('content')
+                        if content:
+                            content = content.strip()
+
+                            logging.info('groq_client.ASR_upscale:JSON content extracted successfully')
+                            return content
+            retries_amount += 1
+
+        logging.warning('groq_client.ASR_upscale:JSON content NOT EXTRACTED')
+        return np.nan

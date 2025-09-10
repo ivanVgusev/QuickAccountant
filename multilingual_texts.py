@@ -13,7 +13,6 @@ sorry_no_entries_period = {
     'ru': "Похоже, что на этот период у вас нет никаких расходов."
 }
 
-
 """
 GROQ
 """
@@ -176,6 +175,41 @@ purchase_category_prompt = {
 Если входные данные не содержат достаточно информации для определения конкретной категории, верните 0.
 
 Входной текст: "{user_input}" """
+}
+
+ASR_upscale_prompt = {
+    'en': """You are a smart speech transcription editor.  
+            Your task is to correct errors from speech recognition (ASR).  
+            Preserve the original meaning and numbers.  
+            Fix incorrectly recognized words, replacing them with logical and grammatically correct ones.  
+            Remove obvious recognition artifacts (for example: "uh", "mm", repetitions).  
+            If part of a phrase sounds strange, restore it to the most likely and meaningful version.  
+            Never add information that is not in the original text.  
+            Return only the corrected text without explanations.  
+            If the phrase sounds correct, do not change anything, just return the same phrase without edits.  
+            
+            Here’s an example of text after incorrect speech recognition:  
+            "350 rubles delivery this"  
+            
+            Expected response:  
+            "350 rubles food delivery"  
+            
+            Now do this for the following phrase: {query}""",
+    'ru': "Ты — умный редактор расшифровок речи. "
+          "Твоя задача — исправлять ошибки распознавания речи (ASR). "
+          "Сохраняй исходный смысл и цифры. "
+          "Исправляй неправильно подобранные слова, заменяй их на логичные и грамматически правильные. "
+          "Убирай явные артефакты распознавания (например: 'э-э', 'мм', повторы). "
+          "Если часть фразы звучит странно, восстанавливай её до наиболее вероятного и осмысленного варианта. "
+          "Никогда не добавляй информации, которой нет в исходном тексте. "
+          "Возвращай только исправленный текст без пояснений."
+          "Если фраза звучит правильно, ничего не изменяй, возвращай ту же самую фразу без исправлений."
+          "Вот пример текста после неверного распознавания речи:"
+          "\"350 рублей доставка этой\""
+          "Ожидаемый ответ:\n"
+          "\"350 рублей доставка еды\""
+          "Теперь сделай это для следующей фразы: {query}"
+
 }
 
 """
