@@ -5,6 +5,7 @@ load_dotenv()
 
 # telegram
 BOT_API = os.getenv('BOT_API')
+BOT_API_TEST = os.getenv('BOT_API_TEST')
 USER_TOKEN_STORAGE_PATH = "token_storage/"
 
 # groq
