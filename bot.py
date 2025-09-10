@@ -21,14 +21,18 @@ import random
 # internal imports
 import configuration
 import multilingual_texts
-from groq_client import main_query
+from groq_client import main_query, ASR_upscale
 import db_handler
 from ASR import transcript
 
 BOT_TOKEN = configuration.BOT_API
+BOT_TOKEN_TEST = configuration.BOT_API_TEST
 
 dp = Dispatcher()
+# main use
 tbot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+# # test use
+# tbot = Bot(token=BOT_TOKEN_TEST, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 
 expenses_calendar = SimpleCalendar()
 
@@ -339,9 +343,11 @@ async def voice_data_input(message: Message):
     # ASR transforms voice message to text
     file_bytes = await message.bot.download(message.voice.file_id)
     query = await transcript(file_bytes)
+    # ASR upscale function uses GROQ to enhance ASR results (needed due to the low-performance Whisper model used)
+    query_upscaled = await ASR_upscale(query, user_lang)
 
     # GROQ analyzes text query
-    content = await main_query(query, user_lang)
+    content = await main_query(query_upscaled, user_lang)
 
     # if the return in groq_client.main_query() was NaN, str with apologies is returned
     if isinstance(content, dict):
