@@ -1,183 +1,153 @@
-# Quick Accountant 🤖💸
+# Quick Accountant
 
-A multilingual Telegram bot that helps you track and manage your personal expenses with voice and text input support.
+A multilingual Telegram bot for tracking and managing personal expenses using text and voice input.
 
-## 🌟 Features
+## Features
 
-- **Voice & Text Input**: Add expenses using both voice messages and text
-- **Multilingual Support**: Currently supports English and Russian
-- **Currency Conversion**: Automatically converts all expenses to USD for unified tracking
-- **Expense Categorization**: AI-powered categorization of your purchases
-- **Periodic Reports**: View expenses for any date range with calendar interface
-- **Data Export**: Download your expense history as CSV files
-- **Privacy-Focused**: All data stored locally - no third-party sharing
+- **Voice & Text Input** – add expenses via text messages or voice notes  
+- **Multilingual Support** – English and Russian  
+- **Currency Conversion** – all expenses are converted to USD for unified tracking  
+- **Expense Categorization** – AI-based categorization of purchases  
+- **Periodic Reports** – view expenses for any date range using a calendar  
+- **Data Export** – download expense history as CSV  
+- **Privacy-Focused** – all data is stored locally, no third-party sharing  
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-- **Backend**: Python 3.11+
-- **Telegram Integration**: aiogram 3.x
-- **Speech Recognition**: OpenAI Whisper
-- **AI Processing**: Groq API (LLM)
-- **Data Storage**: Pandas DataFrames with CSV backend
-- **Currency Conversion**: Real-time exchange rates via external API
+- **Backend**: Python 3.11+  
+- **Telegram Framework**: aiogram 3.x  
+- **Speech Recognition**: OpenAI Whisper  
+- **LLM Processing**: Groq API  
+- **Data Storage**: CSV files via Pandas  
+- **Currency Conversion**: live exchange rates via external API  
 
-## 📋 Prerequisites
+## Prerequisites
 
-- Python 3.11 or higher
-- Telegram Bot Token from [@BotFather](https://t.me/BotFather)
-- Groq API Key from [Groq Console](https://console.groq.com)
-- FFmpeg (for audio processing)
+- Python 3.11 or higher  
+- Telegram Bot Token from [@BotFather](https://t.me/BotFather)  
+- Groq API key from [Groq Console](https://console.groq.com)  
+- FFmpeg (required for audio processing)  
 
-## 🚀 Installation
+## Installation
 
 1. **Clone the repository**
-   ```bash
-   git clone https://github.com/ivanVgusev/QuickAccountant
-   cd quick-accountant
+```bash
+git clone https://github.com/ivanVgusev/QuickAccountant
+cd quick-accountant
+```
 
-2. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
+Install dependencies
 
-3. **Set up environment variables**
+```bash
+Copy code
+pip install -r requirements.txt
+```
 
-    Create a configuration.py file with:
-   ```bash
-    BOT_API = "your_telegram_bot_token"
-    GROQ_API_KEY = "your_groq_api_key"
-    GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
-    GROQ_MODEL = "llama-3.1-8b-instant" 
-    GROQ_MODEL_BACKUP = "mixtral-8x7b-32768" # Backup used when the main model runs out of tokens 
-    CHAT_ID_EASTER_EGG = 123456789  # Optional: for special user handling
+2. **Create configuration file**
 
-## 🎯 Usage
+```python
+BOT_API = "your_telegram_bot_token"
+GROQ_API_KEY = "your_groq_api_key"
+GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
+GROQ_MODEL = "llama-3.1-8b-instant"
+GROQ_MODEL_BACKUP = "mixtral-8x7b-32768"
+```
 
-<b>Available Commands:</b>
+## Usage
+Available Commands
+/start – initialize the bot and choose language
 
-/start - Set up bot and choose language
+/expenses – view expenses for a selected period
 
-/expenses - View expenses for a selected period
+/delete – delete one of the last 10 expense records
 
-/delete - Delete one of the last 10 expense records
+/csv – download expense history as CSV
 
-/csv - Download your expense history as CSV
+/help – show help and FAQ
 
-/help - Get help and FAQ information
+/reset – delete all expense records (irreversible)
 
-/reset - Delete ALL expense records (irreversible)
+## Adding Expenses
 
-<b>Adding Expenses:</b>
+Text input
 
-Text: Send messages like "20 dollars for lunch" or "1000 рублей на кофе"
+```python
+20 dollars for lunch
+1000 рублей на кофе
+Voice input
+Send a voice message describing the expense.
+```
 
-Voice: Send voice messages describing your expenses
 
-<b>Example Interactions:</b>
-   ```bash
-   User: 15 euros for museum ticket
-   Bot: ✅ Got it! 15 EUR: "museum ticket" registered. 📂 Category: Entertainment and Leisure.
-   
-   User: /expenses
-   Bot: [Shows calendar to select date range]
-   ```
+## Project Structure
+```bash
+Copy code
+quick-accountant/
+├── bot.py                  # Main bot logic
+├── ASR.py                  # Speech recognition (Whisper)
+├── groq_client.py          # Groq API integration
+├── db_handler.py           # Expense storage and management
+├── currency_convertor.py  # Currency conversion utilities
+├── multilingual_texts.py  # All texts and prompts
+├── configuration.py       # Configuration file (user-created)
+├── db_storage/             # User CSV data
+└── requirements.txt
+```
 
-## 📁 Project Structure
-   ```bash
-   quick-accountant/
-   ├── bot.py                 # Main bot handler and command processors
-   ├── ASR.py                # Audio speech recognition with Whisper
-   ├── groq_client.py        # Groq API integration for expense extraction
-   ├── db_handler.py         # Database operations and expense management
-   ├── currency_convertor.py # Currency conversion utilities
-   ├── multilingual_texts.py # All bot messages and prompts
-   ├── configuration.py      # API keys and configuration (create this)
-   ├── db_storage/          # User data storage directory
-   └── requirements.txt     # Python dependencies
-   ```   
+Supported Currencies
+Supports all major currencies using standard 3-letter codes (USD, EUR, RUB, GBP, JPY, etc.).
+All expenses are automatically converted to USD for reporting.
 
-## 🔧 Configuration
+## Expense Categories
+Housing
 
-<b>Environment Setup:</b>
-1. Get a Telegram Bot Token from @BotFather
+Groceries and Household Items
 
-2. Obtain a Groq API key from Groq Console
+Transportation
 
-3. Install Whisper dependencies: pip install openai-whisper
+Children Expenses
 
-4. Install FFmpeg for audio processing
+Health and Fitness
 
-<b>File Structure:</b>
+Work and Education
 
-User data is stored in db_storage/ as CSV files (one per user)
+Entertainment and Leisure
 
-Language preferences are stored in db_user_language.csv
+Clothing and Shoes
 
-## 🌐 Supported Currencies
+Pets
 
-The bot supports all major currencies (USD, EUR, RUB, GBP, JPY, etc.) using standard 3-letter currency codes. 
-All expenses are automatically converted to USD for unified reporting.
-
-## 📊 Categories
-📊 Categories
-Expenses are automatically categorized into:
-
-    Housing (rent, utilities, maintenance)
-    
-    Groceries and Household Items
-    
-    Transportation
-    
-    Children expenses
-    
-    Health and fitness
-    
-    Work and Education
-    
-    Entertainment and Leisure
-    
-    Clothing and Shoes
-    
-    Pets
-
-## 🔒 Privacy & Data Security
+## Privacy & Data Security
 All user data is stored locally in CSV format
 
 No data is shared with third parties
 
 Voice messages are processed locally with Whisper
 
-Users can delete all their data with /reset command
+Users can delete all data using /reset
 
-Open source – transparent codebase
+Open-source and transparent
 
-## 🐛 Troubleshooting
-<b>Common Issues:</b>
+## Troubleshooting
+Audio not processed
+Ensure FFmpeg is installed and available in PATH.
 
-Audio not processing: Ensure FFmpeg is installed
+## Groq API errors
+Check API key and quota limits.
 
-Groq API errors: Check your API key and quota
+## Currency conversion fails
+Requires an active internet connection.
 
-Currency conversion fails: Internet connection required for live rates
+## Bot not responding
+Verify that the bot is running and API keys are valid.
 
-No response from bot: Check if the bot is running and API keys are valid
+## License
+MIT License.
 
-<b>Support:</b>
+## Contributing
+Pull requests are welcome.
 
-Contact @QuickAccountantBotSupport on Telegram for assistance.
-
-## 📄 License
-This project is open source and available under the MIT License.
-
-## 🤝 Contributing
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## 📞 Support
-For questions and support:
-
+## Support
 Open an issue on GitHub
 
-Contact @QuickAccountantBotSupport on Telegram
-
-
-
-<b>✨💰Quick Accountant - Making personal finance tracking simple and accessible for everyone!💰✨</b>
+Telegram: @QuickAccountantBotSupport
