@@ -8,10 +8,11 @@ BOT_API = os.getenv('BOT_API')
 BOT_API_TEST = os.getenv('BOT_API_TEST')
 USER_TOKEN_STORAGE_PATH = "token_storage/"
 
-# groq
-GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions'
-GROQ_API_KEY = os.getenv('GROQ_API_KEY')
-GROQ_MODEL = os.getenv('GROQ_MODEL')
-GROQ_MODEL_BACKUP = os.getenv('GROQ_MODEL_BACKUP')
+# Yandex GPT
+YGPT_CATALOGUE_ID = os.getenv('YGPT_CATALOGUE_ID')
+YGPT_MODEL_LITE = os.getenv('YGPT_MODEL_LITE')
+YGPT_MODEL_PRO = os.getenv('YGPT_MODEL_PRO')
+YGPT_API = os.getenv('YGPT_API')
+YGPT_LLM_URL = 'https://llm.api.cloud.yandex.net/foundationModels/v1/completion'
 
 CHAT_ID_EASTER_EGG = int(os.getenv('CHAT_ID_EASTER_EGG'))

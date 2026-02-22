@@ -17,7 +17,7 @@ A multilingual Telegram bot for tracking and managing personal expenses using te
 - **Backend**: Python 3.11+  
 - **Telegram Framework**: aiogram 3.x  
 - **Speech Recognition**: OpenAI Whisper  
-- **LLM Processing**: Groq API  
+- **LLM Processing**: LLM API (e.g. Yandex GPT)  
 - **Data Storage**: CSV files via Pandas  
 - **Currency Conversion**: live exchange rates via external API  
 
@@ -25,7 +25,7 @@ A multilingual Telegram bot for tracking and managing personal expenses using te
 
 - Python 3.11 or higher  
 - Telegram Bot Token from [@BotFather](https://t.me/BotFather)  
-- Groq API key from [Groq Console](https://console.groq.com)  
+- LLM API key (e.g. Yandex GPT from Yandex Cloud)  
 - FFmpeg (required for audio processing)  
 
 ## Installation
@@ -47,10 +47,10 @@ pip install -r requirements.txt
 
 ```python
 BOT_API = "your_telegram_bot_token"
-GROQ_API_KEY = "your_groq_api_key"
-GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
-GROQ_MODEL = "llama-3.1-8b-instant"
-GROQ_MODEL_BACKUP = "mixtral-8x7b-32768"
+YGPT_API = "Api-Key your_yandex_gpt_key"
+YGPT_CATALOGUE_ID = "your_folder_id"
+YGPT_MODEL_LITE = "yandexgpt-lite/latest"
+YGPT_MODEL_PRO = "yandexgpt/latest"
 ```
 
 ## Usage
@@ -85,7 +85,7 @@ Copy code
 quick-accountant/
 ├── bot.py                  # Main bot logic
 ├── ASR.py                  # Speech recognition (Whisper)
-├── groq_client.py          # Groq API integration
+├── llm_client.py           # LLM API integration (Yandex GPT)
 ├── db_handler.py           # Expense storage and management
 ├── currency_convertor.py  # Currency conversion utilities
 ├── multilingual_texts.py  # All texts and prompts
@@ -132,7 +132,7 @@ Open-source and transparent
 Audio not processed
 Ensure FFmpeg is installed and available in PATH.
 
-## Groq API errors
+## LLM API errors
 Check API key and quota limits.
 
 ## Currency conversion fails

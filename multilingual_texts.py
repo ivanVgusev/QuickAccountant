@@ -14,7 +14,7 @@ sorry_no_entries_period = {
 }
 
 """
-GROQ
+LLM
 """
 
 expense_extractor_prompt = {
@@ -136,8 +136,10 @@ purchase_category_prompt = {
         1. Always choose exactly one category from the list above. 
         2. Under no circumstances return None, null or a category that is not listed. 
         3. The output must be **only** the category name exactly as written in the list, with no extra words, 
-        no punctuation, and nothing else at all.
+        no punctuation, and nothing else at all. One line only. No questions, no multiple choice, no examples.
         4. If the input does not provide enough information to determine a specific category, return 0.
+
+        Reply with exactly one line: only the category name. Example: Transportation
 
         Input text: "{user_input}" """,
     'ru': """Вы профессиональный бухгалтер. Ваша задача — определить, какая категория из списка ниже
@@ -170,9 +172,11 @@ purchase_category_prompt = {
 Ни в коем случае не возвращайте None, null или категорию, которой нет в списке.
 
 В ответе должно быть только название категории точно так, как в списке, без лишних слов,
-знаков препинания и всего остального.
+знаков препинания и всего остального. Одна строка. Никаких вопросов, вариантов ответа (а/б/в) и примеров.
 
 Если входные данные не содержат достаточно информации для определения конкретной категории, верните 0.
+
+Ответьте ровно одной строкой — только названием категории. Пример: Транспорт
 
 Входной текст: "{user_input}" """
 }
@@ -468,7 +472,7 @@ start_intro = {
           "Свяжитесь с нами в @QuickAccountantBotSupport.\n\n"
           "<i>P.S. Для лучшей работы бота, уточняйте, пожалуйста, на что именно потратили деньги.</i>\nНапример: "
           "'Тысяча рублей <b>на ресторан</b>\n'"
-          "<i>P.P.S. Если вы пользуетесь голосовыми сообщениями, не начинайте говорить сразу, так как Telegram"
+          "<i>P.P.S. Если вы пользуетесь голосовыми сообщениями, не начинайте говорить сразу, так как Telegram "
           "начинает записывать ваш голос через полсекунды/секунду.</i>"
 }
 

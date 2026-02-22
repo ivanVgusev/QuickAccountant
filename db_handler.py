@@ -5,6 +5,7 @@ import random
 from currency_convertor import to_dollars
 import pandas as pd
 import multilingual_texts
+from llm_client import normalize_category_for_display
 
 
 async def add_user_language(chat_id: int, user_language: str):
@@ -34,7 +35,11 @@ async def add_user_language(chat_id: int, user_language: str):
 
 async def get_user_language(chat_id):
     db_user_language_path = Path("db_user_language.csv")
+    if not db_user_language_path.exists():
+        return "en"
     db_user_language = pd.read_csv(db_user_language_path, index_col='chat_id')
+    if chat_id not in db_user_language.index:
+        return "en"
     return db_user_language.loc[chat_id, 'language']
 
 
@@ -187,6 +192,11 @@ async def categories(chat_id, start_date, end_date):
         if len(expenses) == 0:
             return multilingual_texts.sorry_no_entries.get(user_lang)
 
+        # Normalize category (strip LLM junk from old DB values, e.g. quiz-style text)
+        expenses = expenses.copy()
+        expenses['category'] = expenses['category'].apply(
+            lambda c: normalize_category_for_display(c, user_lang)
+        )
         expenses = expenses['USD'].groupby(expenses['category']).sum()
         expenses = expenses.rename(index={"0": multilingual_texts.unknown_category.get(user_lang)})
         expenses_percent = expenses / expenses.sum() * 100

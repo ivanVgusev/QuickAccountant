@@ -21,7 +21,8 @@ import random
 # internal imports
 import configuration
 import multilingual_texts
-from groq_client import main_query, ASR_upscale
+from llm_client import main_query, ASR_upscale
+import numpy as np
 import db_handler
 from ASR import transcript
 
@@ -30,9 +31,9 @@ BOT_TOKEN_TEST = configuration.BOT_API_TEST
 
 dp = Dispatcher()
 # main use
-tbot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+# tbot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 # # test use
-# tbot = Bot(token=BOT_TOKEN_TEST, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+tbot = Bot(token=BOT_TOKEN_TEST, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 
 expenses_calendar = SimpleCalendar()
 
@@ -79,7 +80,7 @@ async def start_info(message: Message) -> None:
 
 
 @dp.message(Command('help'))
-async def start_info(message: Message) -> None:
+async def help(message: Message) -> None:
     user_chat_id = message.chat.id
     user_lang = await db_handler.get_user_language(user_chat_id)
 
@@ -146,6 +147,7 @@ async def callback_calendar_show_expenses_start(callback_query: CallbackQuery,
     # "Cancel" button handling
     elif callback_data.act == "CANCEL":
         await callback_query.message.delete()
+        await state.clear()
 
     # Normal flow
     else:
@@ -199,6 +201,7 @@ async def callback_calendar_show_expenses_end(callback_query: CallbackQuery,
     # "Cancel" button handling
     elif callback_data.act == "CANCEL":
         await callback_query.message.delete()
+        await state.clear()
 
     # Normal flow
     else:
@@ -325,7 +328,7 @@ async def voice_data_input(message: Message):
 
     await tbot.send_chat_action(message.chat.id, action=ChatAction.TYPING)
 
-    # easter egg for user Vi (my gf)
+    # easter egg for user Vi
     if not user_chat_id == configuration.CHAT_ID_EASTER_EGG:
         # message reactions
         await tbot.set_message_reaction(
@@ -343,13 +346,15 @@ async def voice_data_input(message: Message):
     # ASR transforms voice message to text
     file_bytes = await message.bot.download(message.voice.file_id)
     query = await transcript(file_bytes)
-    # ASR upscale function uses GROQ to enhance ASR results (needed due to the low-performance Whisper model used)
+    # ASR upscale function uses LLM to enhance ASR results (needed due to the low-performance Whisper model used)
     query_upscaled = await ASR_upscale(query, user_lang)
+    if isinstance(query_upscaled, float) and np.isnan(query_upscaled):
+        query_upscaled = query  # fallback to raw ASR on LLM failure
 
-    # GROQ analyzes text query
+    # Yandex GPT analyzes text query
     content = await main_query(query_upscaled, user_lang)
 
-    # if the return in groq_client.main_query() was NaN, str with apologies is returned
+    # if the return in llm_client.main_query() was NaN, str with apologies is returned
     if isinstance(content, dict):
         confirmation = await db_handler.add_entry(content, user_chat_id, user_lang)
     else:
@@ -365,7 +370,7 @@ async def text_data_input(message: Message) -> None:
 
     await tbot.send_chat_action(message.chat.id, action=ChatAction.TYPING)
 
-    # easter egg for user Vi (my gf)
+    # easter egg for user Vi
     if not user_chat_id == configuration.CHAT_ID_EASTER_EGG:
         # message reactions
         await tbot.set_message_reaction(
@@ -380,10 +385,10 @@ async def text_data_input(message: Message) -> None:
             reaction=[ReactionTypeEmoji(emoji=random.choice(["🫡", "👍", "👌", "💩"]))]
         )
 
-    # GROQ analyzes text query
-    content = await main_query(message.model_dump_json(), user_lang)
+    # LLM analyzes text query (pass user text, not the whole Message object)
+    content = await main_query(message.text or "", user_lang)
 
-    # if the return in groq_client.main_query() was NaN, str with apologies is returned
+    # if the return in llm_client.main_query() was NaN, str with apologies is returned
     if isinstance(content, dict):
         confirmation = await db_handler.add_entry(content, user_chat_id, user_lang)
     else:
