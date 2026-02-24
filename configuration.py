@@ -3,6 +3,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+CHAT_ID_EASTER_EGG = int(os.getenv('CHAT_ID_EASTER_EGG'))
+HUGGING_FACE_TOKEN = os.getenv('HUGGING_FACE_TOKEN')
+
 # telegram
 BOT_API = os.getenv('BOT_API')
 BOT_API_TEST = os.getenv('BOT_API_TEST')
@@ -15,4 +18,6 @@ YGPT_MODEL_PRO = os.getenv('YGPT_MODEL_PRO')
 YGPT_API = os.getenv('YGPT_API')
 YGPT_LLM_URL = 'https://llm.api.cloud.yandex.net/foundationModels/v1/completion'
 
-CHAT_ID_EASTER_EGG = int(os.getenv('CHAT_ID_EASTER_EGG'))
+# ASR
+ASR_MODEL = "small"
+CPU_THREADS = 4

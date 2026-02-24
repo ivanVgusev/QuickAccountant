@@ -1,8 +1,8 @@
 import json
 import logging
-
 import httpx
 import numpy as np
+
 
 from configuration import (
     YGPT_CATALOGUE_ID,
@@ -251,13 +251,3 @@ async def main_query(user_input: str, user_lang: str):
 
     return expense
 
-
-async def ASR_upscale(query: str, user_lang: str):
-    """Upscales/corrects ASR transcript using Yandex GPT."""
-    prompt = multilingual_texts.ASR_upscale_prompt.get(user_lang).format(query=query)
-    text = await llm_request(prompt, temperature=0.2, llm_model="lite")
-    if text:
-        logging.info("llm_client.ASR_upscale: upscale successful")
-        return text.strip()
-    logging.warning("llm_client.ASR_upscale: upscale failed")
-    return np.nan

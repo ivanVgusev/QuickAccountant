@@ -2,8 +2,6 @@ import json
 import httpx
 import logging
 import numpy as np
-import asyncio
-from aiogram.enums import ChatAction
 
 
 async def to_dollars(amount: float, original_currency: str) -> float:

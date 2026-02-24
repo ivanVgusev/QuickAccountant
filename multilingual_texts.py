@@ -181,41 +181,6 @@ purchase_category_prompt = {
 Входной текст: "{user_input}" """
 }
 
-ASR_upscale_prompt = {
-    'en': """You are a smart speech transcription editor.  
-            Your task is to correct errors from speech recognition (ASR).  
-            Preserve the original meaning and numbers.  
-            Fix incorrectly recognized words, replacing them with logical and grammatically correct ones.  
-            Remove obvious recognition artifacts (for example: "uh", "mm", repetitions).  
-            If part of a phrase sounds strange, restore it to the most likely and meaningful version.  
-            Never add information that is not in the original text.  
-            Return only the corrected text without explanations.  
-            If the phrase sounds correct, do not change anything, just return the same phrase without edits.  
-            
-            Here’s an example of text after incorrect speech recognition:  
-            "350 rubles delivery this"  
-            
-            Expected response:  
-            "350 rubles food delivery"  
-            
-            Now do this for the following phrase: {query}""",
-    'ru': "Ты — умный редактор расшифровок речи. "
-          "Твоя задача — исправлять ошибки распознавания речи (ASR). "
-          "Сохраняй исходный смысл и цифры. "
-          "Исправляй неправильно подобранные слова, заменяй их на логичные и грамматически правильные. "
-          "Убирай явные артефакты распознавания (например: 'э-э', 'мм', повторы). "
-          "Если часть фразы звучит странно, восстанавливай её до наиболее вероятного и осмысленного варианта. "
-          "Никогда не добавляй информации, которой нет в исходном тексте. "
-          "Возвращай только исправленный текст без пояснений."
-          "Если фраза звучит правильно, ничего не изменяй, возвращай ту же самую фразу без исправлений."
-          "Вот пример текста после неверного распознавания речи:"
-          "\"350 рублей доставка этой\""
-          "Ожидаемый ответ:\n"
-          "\"350 рублей доставка еды\""
-          "Теперь сделай это для следующей фразы: {query}"
-
-}
-
 """
 DB HANDLER
 """
@@ -386,12 +351,8 @@ BOT
 """
 
 help_message = {
-    'en': "🔹 <b>Privacy First</b>\n"
-          "Quick Accountant is fully open source and respects your privacy. We do not collect or use your data for "
-          "any external purpose. All your expenses are stored locally in the database and in your personal CSV "
-          "exports — nothing is sent to third parties. You stay in control of your data at all times.\n"
-          "🔹 <b>Where is my data stored?</b>\n"
-          "In the bot’s local database. It is completely free!\n"
+    'en': "🔹 <b>Where is my data stored?</b>\n"
+          "In the bot’s local database.\n"
           "🔹 <b>Can I edit past expenses?</b>\n"
           "Currently, you can only delete the last 10 entries with /delete.\n"
           "🔹 <b>Does it support currencies?</b>\n"
@@ -399,16 +360,10 @@ help_message = {
           "🔹 <b>Can I export all expenses?</b>\n"
           "Yes, use /csv to download your expense sheet.\n"
           "🔹 <b>What if the voice recognition is wrong?</b>\n"
-          "You can fix it by typing the expense manually or deleting the wrong entry.\n\n"
-          "✉️ Still got questions? Just ask us @QuickAccountantBotSupport!",
+          "You can fix it by typing the expense manually or deleting the wrong entry.\n\n",
 
-    'ru': "🔹 <b>Приватность прежде всего</b>\n"
-          "Quick Accountant — open source проект. Мы уважаем вашу конфиденциальность "
-          "и не собираем ваши данные для сторонних целей. "
-          "Все ваши расходы сохраняются локально в базе данных — "
-          "<b>ничего</b> не передаётся третьим лицам. Именно <b>вы</b> контролируете свои данные.\n"
-          "🔹 <b>Где хранятся мои данные?</b>\n"
-          "В локальной базе данных бота. Это бесплатно!\n"
+    'ru': "🔹 <b>Где хранятся мои данные?</b>\n"
+          "В локальной базе данных бота.\n"
           "🔹 <b>Могу ли я редактировать прошлые расходы?</b>\n"
           "На данный момент можно удалить только последние 10 записей с помощью /delete.\n"
           "🔹 <b>Поддерживаются ли валюты?</b>\n"
@@ -417,8 +372,6 @@ help_message = {
           "Да, используйте /csv для скачивания вашей таблицы расходов.\n"
           "🔹 <b>Что делать, если распознавание голоса ошиблось?</b>\n"
           "Вы можете исправить это, введя расход вручную или удалив неверную запись.\n\n"
-          "✉️ Остались вопросы? Просто напишите нам @QuickAccountantBotSupport!"
-
 }
 
 calendar_start_message = {
@@ -448,14 +401,8 @@ start_intro = {
           "download your expenses as a CSV file, ready for Excel or Google Sheets.\n"
           "🔷 Get more details — Use /help to "
           "learn about our mission and privacy policy.\n"
-          "🔷 If you want to delete ALL the information about your expenses and your profile, use /reset.\n\n"
-          "💬 Have questions? Reach out anytime at "
-          "@QuickAccountantBotSupport.\n\n"
-          "<i>P.S. For the best bot performance, please specify exactly what you spent money on.</i>\nFor example: "
-          "'20 bucks <b>for a T-shirt</b>'\n"
-          "<i>P.P.S. If you use voice messages, do not start talking right away, as Telegram does not immediately "
-          "start recording your voice.</i>"
-    ,
+          "🔷 If you want to delete ALL the information about your expenses and your profile, use /reset.\n\n",
+          
     'ru': "Вот краткий обзор того, что я умею!\n"
           "🔷 Добавляйте расходы легко — просто напишите что-то вроде '300 рублей "
           "на чашку кофе' или отправьте мне голосовое сообщение. Я все запишу!\n"
@@ -468,12 +415,6 @@ start_intro = {
           "🔷 Узнайте больше — "
           "введите /help, чтобы ознакомиться с нашей политикой конфиденциальности и часто задаваемыми вопросами.\n"
           "🔷 Если вы хотите удалить ВСЕ данные о расходах и вашем аккаунте, используйте /reset.\n\n"
-          "💬 Есть вопросы? "
-          "Свяжитесь с нами в @QuickAccountantBotSupport.\n\n"
-          "<i>P.S. Для лучшей работы бота, уточняйте, пожалуйста, на что именно потратили деньги.</i>\nНапример: "
-          "'Тысяча рублей <b>на ресторан</b>\n'"
-          "<i>P.P.S. Если вы пользуетесь голосовыми сообщениями, не начинайте говорить сразу, так как Telegram "
-          "начинает записывать ваш голос через полсекунды/секунду.</i>"
 }
 
 show_categories = {
