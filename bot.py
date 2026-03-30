@@ -1,6 +1,7 @@
 # aiogram imports
 from aiogram import Dispatcher, Bot, F
 from aiogram.client.default import DefaultBotProperties
+from aiogram.client.session.aiohttp import AiohttpSession
 from aiogram.enums import ParseMode
 from aiogram.filters import Command
 from aiogram.types import (Message, CallbackQuery, InlineKeyboardMarkup, InlineKeyboardButton, FSInputFile, BotCommand,
@@ -11,6 +12,7 @@ from aiogram.fsm.state import StatesGroup, State
 from aiogram.fsm.context import FSMContext
 
 # external imports
+import os
 import asyncio
 import logging
 import sys
@@ -29,10 +31,15 @@ BOT_TOKEN = configuration.BOT_API
 BOT_TOKEN_TEST = configuration.BOT_API_TEST
 
 dp = Dispatcher()
+if configuration.HTTP_PROXY:
+    _session = AiohttpSession(proxy=configuration.HTTP_PROXY)
+    _session._connector_init["ssl"] = False
+else:
+    _session = None
 # main use
-tbot = Bot(token=BOT_TOKEN, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+tbot = Bot(token=BOT_TOKEN, session=_session, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 # test use
-# tbot = Bot(token=BOT_TOKEN_TEST, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
+# tbot = Bot(token=BOT_TOKEN_TEST, session=_session, default=DefaultBotProperties(parse_mode=ParseMode.HTML))
 
 expenses_calendar = SimpleCalendar()
 

@@ -10,6 +10,7 @@ from configuration import (
     YGPT_MODEL_PRO,
     YGPT_API,
     YGPT_LLM_URL,
+    HTTP_PROXY,
 )
 import multilingual_texts
 
@@ -58,7 +59,7 @@ async def llm_request(
 
     timeout = httpx.Timeout(connect=30.0, read=60.0, write=10.0, pool=5.0)
     try:
-        async with httpx.AsyncClient(timeout=timeout) as client:
+        async with httpx.AsyncClient(timeout=timeout, proxy=HTTP_PROXY or None) as client:
             response = await client.post(YGPT_LLM_URL, headers=headers, json=payload)
             response.raise_for_status()
             data = response.json()

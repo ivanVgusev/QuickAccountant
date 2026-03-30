@@ -21,3 +21,6 @@ YGPT_LLM_URL = 'https://llm.api.cloud.yandex.net/foundationModels/v1/completion'
 # ASR
 ASR_MODEL = "small"
 CPU_THREADS = 4
+
+# PROXY
+HTTP_PROXY = os.getenv("HTTP_PROXY")
