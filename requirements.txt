@@ -3,6 +3,7 @@ aiogram==3.25.0
 aiogram_calendar==0.6.0
 aiohappyeyeballs==2.6.1
 aiohttp==3.13.3
+aiohttp_socks==0.11.0
 aiosignal==1.4.0
 annotated-doc==0.0.4
 annotated-types==0.7.0
@@ -55,6 +56,7 @@ pydantic_core==2.41.5
 Pygments==2.19.2
 python-dateutil==2.9.0.post0
 python-dotenv==1.2.1
+python-socks==2.8.1
 PyYAML==6.0.3
 requests==2.32.5
 rich==14.3.3
